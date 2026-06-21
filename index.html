@@ -3,31 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mousa's English Idioms Book</title>
+    <title>Mousa's 100 English Idioms Book</title>
+    <!-- استدعاء خطوط مزخرفة وأنيقة من جوجل -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --bg-color: #f4f1ea;
             --book-bg: #fdfbf7;
             --text-main: #2c3e50;
             --text-muted: #7f8c8d;
-            --accent: #d35400;
-            --border-color: #e0dcd3;
-            --shadow: rgba(0, 0, 0, 0.1);
-            --font-family: 'Georgia', serif;
+            --accent: #b33939;
+            --border-color: #d1ccc0;
+            --shadow: rgba(0, 0, 0, 0.15);
         }
         [data-theme="dark"] {
-            --bg-color: #1a1a1a;
-            --book-bg: #2d2d2d;
-            --text-main: #f5f5f5;
-            --text-muted: #b3b3b3;
+            --bg-color: #1e272e;
+            --book-bg: #2f3640;
+            --text-main: #f5f6fa;
+            --text-muted: #dcdde1;
             --accent: #e67e22;
-            --border-color: #404040;
+            --border-color: #718093;
             --shadow: rgba(0, 0, 0, 0.4);
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             background-color: var(--bg-color);
-            font-family: var(--font-family);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
@@ -36,48 +39,68 @@
             justify-content: center;
             transition: background-color 0.3s;
             overflow: hidden;
-            padding: 20px;
+            padding: 15px;
+            font-family: 'Playfair Display', serif;
         }
-        header { width: 100%; max-width: 500px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .btn { background-color: var(--book-bg); color: var(--text-main); border: 1px solid var(--border-color); padding: 6px 12px; border-radius: 20px; cursor: pointer; }
-        .progress-container { width: 100%; max-width: 500px; height: 6px; background-color: var(--border-color); border-radius: 3px; margin-bottom: 15px; }
+        header { width: 100%; max-width: 520px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        header h1 { font-family: 'Cinzel', serif; font-size: 1.4rem; letter-spacing: 1px; color: var(--accent); }
+        .btn { background-color: var(--book-bg); color: var(--text-main); border: 1px solid var(--border-color); padding: 5px 12px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; }
+        .progress-container { width: 100%; max-width: 520px; height: 6px; background-color: var(--border-color); border-radius: 3px; margin-bottom: 12px; }
         .progress-bar { height: 100%; width: 1%; background-color: var(--accent); transition: width 0.3s; }
-        .book-container { width: 100%; max-width: 500px; height: 550px; position: relative; }
+        .book-container { width: 100%; max-width: 520px; height: 580px; position: relative; }
         .book { width: 100%; height: 100%; position: relative; }
         .page {
             width: 100%; height: 100%; position: absolute; top: 0; left: 0; background-color: var(--book-bg);
-            border: 1px solid var(--border-color); border-radius: 8px; box-shadow: 0 4px 12px var(--shadow);
-            padding: 30px 25px; display: flex; flex-direction: column; justify-content: space-between;
-            opacity: 0; pointer-events: none; transition: opacity 0.4s ease-in-out;
+            border: 2px solid var(--border-color); border-radius: 12px; box-shadow: 0 8px 20px var(--shadow);
+            padding: 25px 22px; display: flex; flex-direction: column; justify-content: space-between;
+            opacity: 0; pointer-events: none; transition: opacity 0.35s ease-in-out;
         }
         .page.active { opacity: 1; pointer-events: auto; z-index: 10; }
-        .page-content { display: flex; flex-direction: column; gap: 20px; height: 100%; justify-content: center; }
+        .page-content { display: flex; flex-direction: column; gap: 14px; height: 100%; justify-content: center; }
         
-        /* تجميل واجهة الغلاف */
-        .cover-content { text-align: center; display: flex; flex-direction: column; justify-content: space-between; height: 100%; padding: 20px 10px; }
-        .cover-title { font-size: 2.2rem; color: var(--accent); margin-bottom: 15px; line-height: 1.4; }
-        .cover-subtitle { font-family: system-ui, sans-serif; font-size: 1.2rem; line-height: 1.6; direction: rtl; margin-bottom: 30px; }
-        .instruction-box { background-color: rgba(41, 128, 185, 0.1); border: 1px dashed #2980b9; padding: 15px; border-radius: 8px; direction: rtl; font-family: system-ui, sans-serif; font-size: 0.95rem; line-height: 1.5; color: #2980b9; }
-        .start-btn { background-color: var(--accent); color: white; border: none; padding: 12px 25px; border-radius: 25px; font-size: 1.1rem; cursor: pointer; font-family: system-ui, sans-serif; font-weight: bold; margin-top: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        /* تصميم الغلاف المزخرف */
+        .cover-content { text-align: center; display: flex; flex-direction: column; justify-content: space-between; height: 100%; padding: 10px 5px; }
+        .cover-title { font-family: 'Cinzel', serif; font-size: 2rem; color: var(--accent); font-weight: 700; line-height: 1.3; margin-top: 15px; text-shadow: 1px 1px 2px var(--shadow); }
+        .cover-subtitle { font-family: 'Cairo', sans-serif; font-size: 1.1rem; line-height: 1.6; direction: rtl; margin-bottom: 15px; color: var(--text-main); }
+        
+        /* صندوق الإرشادات المزخرف بلغتين */
+        .instruction-box { border: 2px dashed var(--accent); padding: 12px; border-radius: 10px; background-color: rgba(179, 57, 57, 0.05); text-align: center; margin: 10px 0; }
+        .ins-ar { font-family: 'Cairo', sans-serif; font-size: 0.95rem; direction: rtl; margin-bottom: 8px; line-height: 1.4; }
+        .ins-en { font-family: 'Playfair Display', serif; font-style: italic; font-size: 0.9rem; line-height: 1.4; border-top: 1px solid var(--border-color); padding-top: 6px; }
+        
+        .start-btn { background-color: var(--accent); color: white; border: none; padding: 10px 24px; border-radius: 25px; font-size: 1.05rem; cursor: pointer; font-family: 'Cairo', sans-serif; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: transform 0.2s; }
+        .start-btn:active { transform: scale(0.95); }
 
-        .idiom-title { font-size: 1.8rem; color: var(--accent); line-height: 1.3; padding-bottom: 10px; border-bottom: 2px solid var(--border-color); }
-        .section-title { font-family: system-ui, sans-serif; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 2px; }
-        .meaning-box { font-size: 1.05rem; line-height: 1.4; }
-        .example-box { font-style: italic; font-size: 1.05rem; line-height: 1.4; border-left: 3px solid var(--accent); padding-left: 12px; }
-        .page-footer { text-align: center; font-family: system-ui, sans-serif; font-size: 0.85rem; color: var(--text-muted); padding-top: 10px; border-top: 1px dashed var(--border-color); }
-        .nav-overlay { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; background: var(--book-bg); border: 1px solid var(--border-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        .nav-prev { left: -20px; }
-        .nav-next { right: -20px; }
-        @media (max-width: 600px) { .nav-overlay { display: none; } body { padding: 10px; } .book-container { height: 75vh; } .cover-title { font-size: 1.8rem; } }
+        /* تنسيق نصوص الكلمات والمصطلحات */
+        .idiom-title { font-family: 'Cinzel', serif; font-size: 1.6rem; color: var(--accent); padding-bottom: 6px; border-bottom: 2px solid var(--border-color); font-weight: 700; text-align: center; }
+        .section-title { font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 1px; color: var(--text-muted); font-weight: 700; margin-bottom: 1px; }
+        .meaning-box { font-size: 1.05rem; line-height: 1.35; }
+        .arabic-box { font-family: 'Cairo', sans-serif; font-size: 1rem; line-height: 1.4; direction: rtl; text-align: right; color: #2980b9; font-weight: bold; }
+        [data-theme="dark"] .arabic-box { color: #3498db; }
+        .example-box { font-style: italic; font-size: 1.05rem; line-height: 1.35; border-left: 3px solid var(--accent); padding-left: 10px; background: rgba(0,0,0,0.02); padding-top: 4px; padding-bottom: 4px; }
+        
+        .page-footer { text-align: center; font-family: 'Cinzel', serif; font-size: 0.8rem; color: var(--text-muted); padding-top: 8px; border-top: 1px dashed var(--border-color); letter-spacing: 1px; }
+        
+        /* أسهم التنقل للتابلت والكمبيوتر */
+        .nav-overlay { position: absolute; top: 50%; transform: translateY(-50%); width: 42px; height: 42px; background: var(--book-bg); border: 2px solid var(--border-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 100; box-shadow: 0 4px 8px rgba(0,0,0,0.15); font-weight: bold; color: var(--accent); transition: all 0.2s; }
+        .nav-overlay:active { transform: translateY(-50%) scale(0.9); }
+        .nav-prev { left: -22px; }
+        .nav-next { right: -22px; }
+        
+        @media (max-width: 600px) { 
+            .nav-overlay { display: none; } 
+            body { padding: 5px; } 
+            .book-container { height: 80vh; } 
+            .cover-title { font-size: 1.6rem; }
+            .idiom-title { font-size: 1.3rem; }
+        }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>📖 Idioms Learning</h1>
-    <div class="controls">
-        <button class="btn" id="themeToggle">🌗 Mode</button>
-    </div>
+    <h1>📖 Mousa's Library</h1>
+    <button class="btn" id="themeToggle">🌗 Mode</button>
 </header>
 
 <div class="progress-container">
@@ -88,55 +111,145 @@
     <div class="nav-overlay nav-prev" id="prevBtn" onclick="prevPage()">❮</div>
     <div class="nav-overlay nav-next" id="nextBtn" onclick="nextPage()">❯</div>
     <div class="book" id="book">
+        
+        <!-- صفحة الغلاف الترحيبية المحدثة والمزخرفة -->
         <div class="page active" id="coverPage">
             <div class="cover-content">
                 <div>
                     <h2 class="cover-title">Welcome to Mousa's Website</h2>
-                    <p class="cover-subtitle">لتعلم مصطلحات اللغة الإنجليزية (Idioms) ومعانيها المجازية باللغتين العربية والإنجليزية بطريقة تفاعلية سهلة.</p>
+                    <div style="margin: 10px 0; color: var(--border-color);">⚜ ⚜ ⚜</div>
+                    <p class="cover-subtitle">بوابة موسى التفاعلية لإتقان وفهم 100 من أشهر مصطلحات وتعبيرات اللغة الإنجليزية (Idioms) مع معانيها الدقيقة وشرحها بالعربية والإنجليزية.</p>
                 </div>
                 
                 <div class="instruction-box">
-                    <strong>💡 طريقة تصفح الكتاب:</strong><br>
-                    يمكنك تقليب الصفحات عبر **التمرير (السحب) لليمين أو اليسار** على الشاشة، أو استخدام الأسهم الجانبية (❮ و ❯).
+                    <div class="ins-ar"><strong>📖 طريقة تصفح الكتاب:</strong><br>اقلب الصفحات عن طريق <b>تمرير وسحب الشاشة لليمين أو اليسار</b>، أو باستخدام الأسهم الجانبية.</div>
+                    <div class="ins-en"><strong>💡 How to Browse:</strong><br>Flip pages by <b>swiping left or right</b> on your screen, or use the side arrows.</div>
                 </div>
 
                 <div>
-                    <button class="start-btn" onclick="nextPage()">ابدأ التصفح الآن 📖</button>
+                    <button class="start-btn" onclick="nextPage()">ابدأ رحلة التعلم 🚀</button>
                 </div>
                 <div class="page-footer">
-                    <span>الغلاف</span>
+                    <span>Cover Page</span>
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 
 <script>
+// مصفوفة الـ 100 جملة والمصطلحات كاملة بدون نقصان
 const idiomsData = [
-    { idiom: "Bite the bullet", literal: "To physically bite down on a lead bullet.", figurative: "To face a difficult situation with courage and get it over with.", arabic: "يتحمل المصاعب / يجرع الغصص (مواجهة موقف صعب بشجاعة وإنهاء الأمر).", example: "I hate going to the dentist, but I just need to bite the bullet and go." },
-    { idiom: "Break a leg", literal: "Wishing someone breaks their bones.", figurative: "A superstitious way to wish a performer good luck before a show.", arabic: "بالتوفيق! / حظاً سعيداً! (تقال للممثلين أو قبل العروض والامتحانات).", example: "You're going to do great in the play tonight! Break a leg!" },
-    { idiom: "Spill the beans", literal: "To accidentally knock over a container of beans.", figurative: "To reveal a secret prematurely or accidentally.", arabic: "يفشي السر / يَبُق البحصة.", example: "We were planning a surprise party, but Sarah spilled the beans." },
-    { idiom: "Piece of cake", literal: "A single slice of sweet baked dessert.", figurative: "Something that is incredibly easy to do.", arabic: "أمر غاية في السهولة / شربة مي.", example: "Don't worry about the English exam; it's going to be a piece of cake." },
-    { idiom: "Let the cat out of the bag", literal: "Allowing a hidden feline to escape from a sack.", figurative: "To mistakenly reveal a secret.", arabic: "يفضح الأمر / يكشف المستور (دون قصد).", example: "Tim let the cat out of the bag about the promotion before management announced it." },
-    { idiom: "Under the weather", literal: "Standing physically underneath rain or clouds.", figurative: "Feeling slightly sick, ill, or exhausted.", arabic: "وعكة صحية / ليس على ما يرام (مريض قليلاً أو مرهق).", example: "I won't be able to come to work today because I'm feeling a bit under the weather." },
-    { idiom: "Cost an arm and a leg", literal: "Paying for an item using your own limbs.", figurative: "Something that is extremely expensive.", arabic: "يكلف ثروة طائلة / يعور الجيب.", example: "The new smartwatches look amazing, but they cost an arm and a leg." },
-    { idiom: "Hit the nail on the head", literal: "Striking a metal pin perfectly with a hammer.", figurative: "To describe exactly what is causing a situation or problem.", arabic: "أصاب كبد الحقيقة / جابها ع الجرح (وصف المشكلة بدقة).", example: "You hit the nail on the head when you said we need better marketing." },
-    { idiom: "Burn the midnight oil", literal: "Keeping an oil lamp lit late into the night.", figurative: "To study or work late into the night.", arabic: "يسهر الليالي / يواصل الليل بالنهار (للدراسة أو العمل المكثف).", example: "Mousa had to burn the midnight oil to prepare for his presentation at the institute." },
-    { idiom: "Once in a blue moon", literal: "An event occurring during a rare second full moon in a month.", figurative: "Something that happens very rarely.", arabic: "في النادر جداً / من العيد للعيد.", example: "Living abroad means I only get to see my extended family once in a blue moon." },
-    { idiom: "Blessing in disguise", literal: "A holy gift wearing a mask.", figurative: "A misfortune that eventually results in something good happening later.", arabic: "ربّ ضارة نافعة / وعسى أن تكرهوا شيئاً وهو خير لكم.", example: "Losing that job was a blessing in disguise because I found a much better one." },
-    { idiom: "Call it a day", literal: "Giving a name to a 24-hour period.", figurative: "To stop working on something for the rest of the day.", arabic: "يكتفي بهذا القدر اليوم / ينهي عمل اليوم.", example: "We've been coding for six hours; let's call it a day." },
-    { idiom: "Cold shoulder", literal: "Serving someone a cold piece of meat from an animal's shoulder.", figurative: "To intentionally ignore someone or treat them in an unfriendly way.", arabic: "يعامله بجفاء / يصدّ عنه / يعطيه ظهره.", example: "After our argument, she gave me the cold shoulder all week." },
-    { idiom: "Don't judge a book by its cover", literal: "Evaluating the contents of a novel solely by its front art.", figurative: "You shouldn't form an opinion about something based purely on its outward appearance.", arabic: "لا تحكم على الكتاب من غلافه / المظاهر خداعة.", example: "The hotel looked run-down from the outside, but inside it was beautiful. Don't judge a book by its cover." },
-    { idiom: "The last straw", literal: "The final single piece of dried grass placed on a camel's back.", figurative: "The final problem in a series of problems that makes a situation intolerable.", arabic: "القشة التي قصمت ظهر البعير (الحد المتبقي للصبر).", example: "When the computer crashed and lost my document, it was the last straw." }
+    { idiom: "Bite the bullet", literal: "To physically bite down on a lead bullet.", figurative: "To face a difficult situation with courage and get it over with.", arabic: "يتجرع الغصص / يتحمل المصاعب بمواجهة موقف حتمي بشجاعة.", example: "I just need to bite the bullet and go to the dentist." },
+    { idiom: "Break a leg", literal: "Wishing someone breaks their bones.", figurative: "A superstitious way to wish a performer good luck before a show.", arabic: "بالتوفيق! / حظاً سعيداً! (تقال قبل العروض والمشاريع).", example: "You're going to do great in the exam! Break a leg!" },
+    { idiom: "Spill the beans", literal: "To accidentally knock over a container of beans.", figurative: "To reveal a secret prematurely or accidentally.", arabic: "يفشي السر / يَبُق البحصة وينشر خبراً مخفياً.", example: "We planned a surprise, but Sarah spilled the beans." },
+    { idiom: "Piece of cake", literal: "A single slice of sweet baked dessert.", figurative: "Something that is incredibly easy to do.", arabic: "أمر غاية في السهولة / شربة مي / سهل جداً.", example: "Don't worry about the English test; it's a piece of cake." },
+    { idiom: "Let the cat out of the bag", literal: "Allowing a hidden feline to escape from a sack.", figurative: "To mistakenly reveal a secret.", arabic: "يفضح الأمر / يكشف المستور دون قصد.", example: "Tim let the cat out of the bag about the surprise promotion." },
+    { idiom: "Under the weather", literal: "Standing physically underneath rain or clouds.", figurative: "Feeling slightly sick, ill, or exhausted.", arabic: "وعكة صحية / ليس على ما يرام (مريض أو متعب قليلاً).", example: "I am feeling a bit under the weather today." },
+    { idiom: "Cost an arm and a leg", literal: "Paying for an item using your own limbs.", figurative: "Something that is extremely expensive.", arabic: "يكلف ثروة طائلة / غالي الثمن جداً.", example: "The new smartphone costs an arm and a leg." },
+    { idiom: "Hit the nail on the head", literal: "Striking a metal pin perfectly with a hammer.", figurative: "To describe exactly what is causing a situation or problem.", arabic: "أصاب كبد الحقيقة / وضع النقاط على الحروف بدقة.", example: "You hit the nail on the head with that explanation." },
+    { idiom: "Burn the midnight oil", literal: "Keeping an oil lamp lit late into the night.", figurative: "To study or work late into the night.", arabic: "يسهر الليالي / يواصل الليل بالنهار للدراسة أو العمل.", example: "Mousa had to burn the midnight oil to finish the task." },
+    { idiom: "Once in a blue moon", literal: "An event occurring during a rare second full moon.", figurative: "Something that happens very rarely.", arabic: "في النادر جداً / حدث يحصل مرة في العمر أو نادراً.", example: "I only see my extended family once in a blue moon." },
+    { idiom: "Blessing in disguise", literal: "A holy gift wearing a mask.", figurative: "A misfortune that eventually results in something good happening.", arabic: "ربّ ضارة نافعة / أمر يبدو سيئاً لكن عاقبته خير.", example: "Losing that job was a blessing in disguise." },
+    { idiom: "Call it a day", literal: "Giving a name to a 24-hour period.", figurative: "To stop working on something for the rest of the day.", arabic: "يكتفي بهذا القدر اليوم / ينهي عمل اليوم ويتوقف.", example: "We've been studying for hours; let's call it a day." },
+    { idiom: "Cold shoulder", literal: "Serving someone a cold piece of meat from an animal's shoulder.", figurative: "To intentionally ignore someone or treat them unfriendly.", arabic: "يعامله بجفاء / يصدّ عنه / يتجاهله عن عمد.", example: "After our argument, she gave me the cold shoulder." },
+    { idiom: "Don't judge a book by its cover", literal: "Evaluating a novel solely by its front art.", figurative: "You shouldn't form an opinion based purely on appearances.", arabic: "لا تحكم على الكتاب من غلافه / المظاهر خداعة.", example: "The shop looks small, but inside it's amazing. Don't judge a book by its cover." },
+    { idiom: "The last straw", literal: "The final single piece of grass placed on a camel's back.", figurative: "The final problem in a series that makes a situation intolerable.", arabic: "القشة التي قصمت ظهر البعير / نهاية الصبر الحتمي.", example: "When the internet disconnected again, it was the last straw." },
+    { idiom: "Barking up the wrong tree", literal: "A dog barking at a tree where there is no animal.", figurative: "Looking for solutions in the wrong place or accusing the wrong person.", arabic: "يطرق الباب الخاطئ / يبحث في المكان غير الصحيح.", example: "If you think I took your pen, you're barking up the wrong tree." },
+    { idiom: "Beat around the bush", literal: "Beating the bushes around a bird's nest rather than directly approaching.", figurative: "Avoiding the main topic or not speaking directly.", arabic: "يلف ويدور / يتهرب من قول الحقيقة مباشرة.", example: "Stop beating around the bush and tell me what you want." },
+    { idiom: "Cry over spilled milk", literal: "Weeping over milk that has already leaked out.", figurative: "Complaining about a past mistake or event that cannot be changed.", arabic: "البكاء على اللبن المسكوب / الندم على ما فات ولا يمكن تغييره.", example: "You failed the test, but don't cry over spilled milk; study harder next time." },
+    { idiom: "Hit the sack", literal: "Physically punching a large bag.", figurative: "To go to bed or go to sleep.", arabic: "يخلد إلى النوم / يذهب للفراش من التعب.", example: "I am exhausted, I'm going to hit the sack." },
+    { idiom: "Miss the boat", literal: "Arriving late at the dock after the ship has left.", figurative: "To miss an opportunity by being too slow to act.", arabic: "فاته القطار / ضاعت عليه الفرصة الذهبية.", example: "The discount ended yesterday; I really missed the boat." },
+    { idiom: "Face the music", literal: "Standing in front of an orchestra or crowd.", figurative: "To accept the unpleasant consequences of one's actions.", arabic: "يواجه العواقب / يتحمل نتيجة أخطائه بشجاعة.", example: "You broke the window; now you have to face the music." },
+    { idiom: "The elephant in the room", literal: "A giant mammal standing inside a small lounge.", figurative: "An obvious problem or difficult situation that people avoid talking about.", arabic: "المشكلة الواضحة التي يتجنب الجميع الحديث عنها كالحرج.", example: "No one wanted to talk about the budget deficit; it was the elephant in the room." },
+    { idiom: "Pull someone's leg", literal: "Grabbing a person's ankle and pulling.", figurative: "To joke with someone or tell them something untrue as a prank.", arabic: "يمزح مع شخص / يستغفله على سبيل المزاح.", example: "Don't be mad, I was just pulling your leg!" },
+    { idiom: "Through thick and thin", literal: "Walking through dense forests and thin bushes.", figurative: "Supporting someone through good times and very difficult times.", arabic: "في السراء والضراء / على الحلوة والمرة.", example: "My best friend has supported me through thick and thin." },
+    { idiom: "See eye to eye", literal: "Two people staring directly into each other's eyes.", figurative: "To agree fully with someone else.", arabic: "يتفقان تماماً في الرأي / على قلب رجل واحد.", example: "My boss and I don't always see eye to eye on projects." },
+    { idiom: "Ring a bell", literal: "Sounding a small metallic bell.", figurative: "Something sounds familiar, but you cannot recall the exact details.", arabic: "يبدو مألوفاً / يذكرني بشيء ما لست متأكداً منه.", example: "His name rings a bell, but I can't remember where we met." },
+    { idiom: "Rule of thumb", literal: "Using your thumb to measure distance or size.", figurative: "A broadly accurate guide or principle based on practice rather than theory.", arabic: "قاعدة عامة / عرف متعارف عليه ومجرّب.", example: "As a rule of thumb, always save 10% of your money." },
+    { idiom: "Blow off steam", literal: "Releasing pressured vapor from a boiling kettle.", figurative: "To do something to get rid of stress, anger, or energy.", arabic: "يروح عن نفسه / يفرغ طاقته وغضبه بالرياضة أو الترفيه.", example: "I went running to blow off steam after a stressful day." },
+    { idiom: "Go down in flames", literal: "An airplane crashing down while burning completely.", figurative: "To fail spectacularly or end suddenly in a disaster.", arabic: "يفشل فشلاً ذريعاً / ينهار تماماً بالكامل.", example: "The new business project went down in flames." },
+    { idiom: "On cloud nine", literal: "Floating on the ninth layer of clouds in the sky.", figurative: "Extremely happy, blissful, or excited.", arabic: "في قمة السعادة / يطير من الفرحة فوق السحاب.", example: "When he passed his driving exam, he was on cloud nine." },
+    { idiom: "Break the ice", literal: "Using a ship to shatter frozen sheets of ocean water.", figurative: "To make people feel more comfortable in a social situation.", arabic: "يكسر الجليد / يزيل الحواجز الرسمية ويبدأ الحديث.", example: "A short joke is a good way to break the ice in a meeting." },
+    { idiom: "Cut corners", literal: "Slicing off the edges of a shape to shorten a path.", figurative: "To do something in the easiest, cheapest, or fastest way, sacrificing quality.", arabic: "يختصر الطرق بطريقة سيئة / يغش في العمل لتوفير المال.", example: "The building collapsed because the contractor cut corners." },
+    { idiom: "Add insult to injury", literal: "Mocking a person after they have been physically hurt.", figurative: "To make a bad situation even worse.", arabic: "يزيد الطين بلة / يصب الزيت على النار.", example: "They cancelled his flight, and to add insult to injury, they lost his bags." },
+    { idiom: "A penny for your thoughts", literal: "Offering a tiny coin in exchange for a person's hidden ideas.", figurative: "A way of asking what someone is thinking about when they are quiet.", arabic: "فيم تفكر؟ / أعطني ما يدور في ذهنك الحائر.", example: "You've been quiet for an hour; a penny for your thoughts." },
+    { idiom: "At the drop of a hat", literal: "Doing something immediately when a headpiece falls.", figurative: "Instantly, immediately, without any hesitation or delay.", arabic: "على أهبة الاستعداد / في لمح البصر وبدون تردد.", example: "She is ready to travel at the drop of a hat." },
+    { idiom: "Back to the drawing board", literal: "Returning physically to an artist's empty sketch desk.", figurative: "Starting over because a previous plan failed completely.", arabic: "العودة إلى المربع الأول / بدء التخطيط من جديد بعد الفشل.", example: "Our design didn't work, so it's back to the drawing board." },
+    { idiom: "The best of both worlds", literal: "Living in two perfect universes simultaneously.", figurative: "A situation where you can enjoy the advantages of two different things.", arabic: "ضرب عصفورين بحجر / الاستمتاع بميزتين مختلفتين معاً.", example: "Working from home gives him the best of both worlds." },
+    { idiom: "Bite off more than you can chew", literal: "Stuffing your mouth with a piece of food too large to swallow.", figurative: "To take on a task or commitment that is way too big or difficult.", arabic: "يحمل نفسه فوق طاقتها / يأخذ التزاماً يعجز عن إتمامه.", example: "Don't bite off more than you can chew with too many classes." },
+    { idiom: "By the skin of your teeth", literal: "The invisible outer layer of human incisors.", figurative: "Just barely succeeding by a very narrow margin.", arabic: "بأعجوبة / بشق الأنفس / كاد أن يفشل لكن نجا.", example: "He passed the driving test by the skin of his teeth." },
+    { idiom: "Don't put all your eggs in one basket", literal: "Carrying all delicate fragile objects in a single container.", figurative: "Do not depend on a single plan or risk everything on one venture.", arabic: "لا تضع البيض كله في سلة واحدة / نوّع استثماراتك وخياراتك.", example: "Apply for multiple jobs; don't put all your eggs in one basket." },
+    { idiom: "Every cloud has a silver lining", literal: "A dark storm cloud with bright glowing edges from the sun.", figurative: "Every negative or difficult situation has a positive aspect to it.", arabic: "كل ضيق بعده فرج / بطن المحنة تحمل المنحة.", example: "Losing my job led me to start coding; every cloud has a silver lining." },
+    { idiom: "Get a taste of your own medicine", literal: "Being forced to swallow a bitter fluid you mixed for others.", figurative: "To be treated badly in the same way you treated others.", arabic: "يُسقى من نفس الكأس / يذوق وبال أمره الجزاء من جنس العمل.", example: "He always mocks people, but today he got a taste of his own medicine." },
+    { idiom: "Give someone the benefit of the doubt", literal: "Allowing a person to win an argument when proof is missing.", figurative: "To choose to believe someone is honest even without complete proof.", arabic: "حسن الظن / تقديم حسن النية بانتظار الأدلة.", example: "Let's give him the benefit of the doubt before getting angry." },
+    { idiom: "Go the extra mile", literal: "Walking an additional mile along a road beyond your destination.", figurative: "To make a special effort or do more than what is required to achieve something.", arabic: "يبذل قصارى جهده / يقدم معروفاً إضافياً يتجاوز الواجب.", example: "A good teacher always goes the extra mile for his students." },
+    { idiom: "Hear it on the grapevine", literal: "Listening to whispers through fruit vines.", figurative: "To hear rumors or news passed from person to person informally.", arabic: "سمعتُ وكالة يقولون / وصلني الخبر عبر القيل والقال.", example: "I heard on the grapevine that the manager is quitting." },
+    { idiom: "In the heat of the moment", literal: "Being physically warmed up by fire or friction.", figurative: "Saying or doing something without thinking because you are angry or excited.", arabic: "في ثورة الغضب / في لحظة انفعال طائشة.", example: "He said mean words in the heat of the moment, but he regrets it." },
+    { idiom: "It takes two to tango", literal: "A formal ballroom dance requiring exactly two dancers.", figurative: "Both people involved in a bad situation or argument are responsible for it.", arabic: "المشكلة تحتاج طرفين / الخلاف لا يقع من طرف واحد.", example: "She blames him, but it takes two to tango." },
+    { idiom: "Kill two birds with one stone", literal: "Throwing a single rock and hitting a pair of flying avians.", figurative: "To achieve two goals with a single action.", arabic: "ضرب عصفورين بحجر واحد / إنجاز أمرين بفعل واحد.", example: "By walking to work, I save money and exercise; killing two birds with one stone." },
+    { idiom: "Method to madness", literal: "A chaotic crazy mind acting according to strict scientific logic.", figurative: "A purpose or orderly plan behind actions that seem crazy or chaotic.", arabic: "في جنونه فنون / تصرفاته تبدو غريبة لكن وراءها خطة ذكية.", example: "His filing system looks messy, but there is a method to his madness." },
+    { idiom: "No pain, no gain", literal: "Experiencing no physical injuries means you get no muscle mass.", figurative: "You have to work hard and suffer to achieve success or progress.", arabic: "لا إنجاز بدون تعب / من طلب العلا سهر الليالي.", example: "Learning English vocabulary is hard, but no pain, no gain." },
+    { idiom: "On the fence", literal: "Sitting physically on top of a sharp wooden boundary rail.", figurative: "Undecided or unable to choose between two options.", arabic: "حائر بين أمرين / جالس على الحياد لم يتخذ قراراً بعد.", example: "I am still on the fence about buying that watch." },
+    { idiom: "Play devil's advocate", literal: "A lawyer defending a sinister demon in court.", figurative: "To argue against an idea just for the sake of debate or testing it.", arabic: "يلعب دور المعارض لاختبار الفكرة / يتبنى الرأي الآخر للنقاش.", example: "Let me play devil's advocate: what if the market crashes?" },
+    { idiom: "Speak of the devil", literal: "A dark spirit appearing as soon as his name is muttered.", figurative: "The person you were just talking about arrives or calls unexpectedly.", arabic: "ابن الحلال عند ذكره يبان / تحدثنا عن القط فجاء ينط.", example: "Speak of the devil! We were just talking about you, Mousa." },
+    { idiom: "Straight from the horse's mouth", literal: "Opening an equine's jaws and hearing words.", figurative: "Getting information directly from the highest authority or original source.", arabic: "من المصدر الموثوق المباشر / من فم الأسد.", example: "I know the company is expanding; I heard it straight from the horse's mouth." },
+    { idiom: "Take it with a grain of salt", literal: "Sprinkling a tiny white crystal over a massive story.", figurative: "To view a piece of information or story with skepticism; not fully believing it.", arabic: "خذ الكلام بحذر / لا تصدق كل ما يقال وعامله بشك.", example: "Most news on social media should be taken with a grain of salt." },
+    { idiom: "A blessing in disguise", literal: "An angel hidden behind a scary mask.", figurative: "Something good that isn't recognized at first.", arabic: "عسى أن تكرهوا شيئاً وهو خير لكم.", example: "Missing the bus was a blessing in disguise because it rained heavily later." },
+    { idiom: "A drop in the bucket", literal: "A tiny molecule of liquid entering a giant container.", figurative: "A very small, insignificant amount compared to what is needed.", arabic: "قطرة في بحر / كمية ضئيلة لا تقدم ولا تؤخر.", example: "My donation is just a drop in the bucket compared to the total cost." },
+    { idiom: "A leopard cannot change its spots", literal: "A large wild cat attempting to wipe off its natural black coat.", figurative: "People cannot change their innate character or basic personality.", arabic: "ذيل الكلب أعوج / الطبع يغلب التطبع.", example: "He promised to be honest, but a leopard cannot change its spots." },
+    { idiom: "Actions speak louder than words", literal: "Human deeds making high decibel sounds.", figurative: "What you do has a stronger impact than what you say you will do.", arabic: "الأفعال أبلغ من الأقوال / العبرة بالخواتيم والعمل.", example: "Don't just promise to study; actions speak louder than words." },
+    { idiom: "All ears", literal: "Human head turning completely into a pair of acoustic organs.", figurative: "Fully listening, giving undivided attention to a speaker.", arabic: "كلي آذان صاغية / مستمع بكل تركيز وانتباه.", example: "Tell me about your travel plan, I am all ears." },
+    { idiom: "All in the same boat", literal: "Multiple people trapped on a single rowboat at sea.", figurative: "Facing the same difficult situation or challenges together.", arabic: "كلنا في الهوا سوا / في خندق واحد نواجه نفس القدر.", example: "The inflation affects everyone; we are all in the same boat." },
+    { idiom: "Apple of my eye", literal: "A small round fruit stuck in a person's socket.", figurative: "Someone who is cherished, loved, and favored above all others.", arabic: "قرّة عيني / حبيب قلبي المفضل.", example: "His youngest daughter is the apple of his eye." },
+    { idiom: "As blind as a bat", literal: "A flying mammal unable to view objects in daylight.", figurative: "Having extremely poor vision, or refusing to see reality.", arabic: "أعمى بصير أو بصر / لا يرى شيئاً على الإطلاق.", example: "Without my glasses, I am as blind as a bat." },
+    { idiom: "At death's door", literal: "Standing outside the portal of the grim reaper.", figurative: "Very close to dying or being critically ill.", arabic: "على فراش الموت / يلفظ أنفاسه الأخيرة.", example: "The old machine is broken and at death's door." },
+    { idiom: "Barking up the wrong tree", literal: "A hound standing under an empty pine tracking a scent.", figurative: "Pursuing a mistaken line of thought or action.", arabic: "يبحث في الاتجاه الخاطئ تماماً.", example: "The police arrested him, but they were barking up the wrong tree." },
+    { idiom: "Beat the clock", literal: "Punching a digital timekeeper to stop the gears.", figurative: "To finish a task or complete an action before a deadline or time limit.", arabic: "يسابق الزمن / ينهي العمل قبل انتهاء الوقت المحدد.", example: "We managed to beat the clock and submit the report." },
+    { idiom: "Beggars can't be choosers", literal: "A poor man asking for coins refusing bills.", figurative: "People who depend on the generosity of others must accept what is offered.", arabic: "شحات ومشارط / من يطلب المساعدة ليس له حق التشرط.", example: "The free room was small, but beggars can't be choosers." },
+    { idiom: "Better late than never", literal: "Arriving after the clock turns past the appointed hour.", figurative: "It is better to do something late than not to do it at all.", arabic: "أن تصل متأخراً خير من ألا تصل أبداً.", example: "He graduated at the age of forty; better late than never." },
+    { idiom: "Bite your tongue", literal: "Clamping your jaws shut on your own muscular organ.", figurative: "To stop yourself from saying something that might be offensive or hurtful.", arabic: "يمسك لسانه / يكتم غيظه ويمتنع عن الرد السيء.", example: "I wanted to argue, but I had to bite my tongue." },
+    { idiom: "Blood is thicker than water", literal: "Red vital fluid having higher density than clear liquid.", figurative: "Family relationships and loyalty are stronger than any other bonds.", arabic: "الدم عمره ما يبقى مية / الأقربون أولى بالمعروف والدعم.", example: "When I was broke, my brother helped me; blood is thicker than water." },
+    { idiom: "Break the bank", literal: "Shattering a heavy concrete vault building.", figurative: "To cost more money than you can afford, or use up all your funds.", arabic: "يكسر الظهر مالياً / يستهلك كل الميزانية.", example: "Buying a simple car won't break the bank." },
+    { idiom: "Bring home the bacon", literal: "Carrying salted pork strips into a house.", figurative: "To earn money to support a family or household.", arabic: "يعيل أسرته / يكسب قوت يومه ويجلب الرزق للمنزل.", example: "He works two jobs to bring home the bacon." },
+    { idiom: "Bull in a china shop", literal: "A massive horned beast walking inside a fragile plate boutique.", figurative: "A person who is very clumsy or careless in delicate situations.", arabic: "كالثور في مستودع الخزف / أخرق يدمر الأمور الحساسة.", example: "Don't let him handle the negotiations; he is like a bull in a china shop." },
+    { idiom: "Burn bridges", literal: "Setting fire to a wooden crossing after walking over it.", figurative: "To destroy paths, relationships, or options permanently.", arabic: "يقطع خطوط العودة / يحرق سفنه ويدمر علاقاته السابقة.", example: "Never insult your boss when quitting; don't burn bridges." },
+    { idiom: "Bury the hatchet", literal: "Digging a hole in the earth to hide a sharp war axe.", figurative: "To make peace, end a conflict, or settle an argument.", arabic: "يدفن أحقاد الماضي / ينهي الخلاف الصلح خير.", example: "After years of fighting, the brothers decided to bury the hatchet." },
+    { idiom: "Busy as a bee", literal: "A small striped insect flying to flowers without stopping.", figurative: "Extremely active, industrious, and focused on tasks.", arabic: "شعلة نشاط / مشغول جداً كالنحلة الدؤوبة.", example: "Mousa is as busy as a bee with his new website design." },
+    { idiom: "By hook or by crook", literal: "Using a shepherd's curved stick or a thief's tools.", figurative: "By any means possible, whether fair or foul, honest or dishonest.", arabic: "بالحق أو بالباطل / بأي طريقة كانت سلباً أم إيجاباً.", example: "He determined to win the competition by hook or by crook." },
+    { idiom: "Chew the fat", literal: "Masticating animal blubber for hours.", figurative: "To chat casually or gossip with friends for a long time.", arabic: "يتبادل أطراف الحديث / يدردش ويقضي الوقت بالفضفضة.", example: "We sat in the cafe and chewed the fat all afternoon." },
+    { idiom: "Chip off the old block", literal: "A small fragment breaking off a massive boulder.", figurative: "A person who is very similar in character or appearance to their parent.", arabic: "هذا الشبل من ذاك الأسد / ابن الوز عوام.", example: "He loves fixing machines just like his father; a chip off the old block." },
+    { idiom: "Clam up", literal: "A shelled ocean creature shutting its calcified valves.", figurative: "To suddenly refuse to speak or answer questions out of fear or nervousness.", arabic: "يلوذ بالصمت / ينعقد لسانه فجأة بسبب الخوف.", example: "When the teacher asked who broke the glass, everyone clammed up." },
+    { idiom: "Close, but no cigar", literal: "Arriving near a finish line and getting no prize tobacco.", figurative: "Coming very close to success but ultimately failing to win.", arabic: "قريب جداً ولكن لم يفلح / كاد أن ينجح لكن لم يحالفه الحظ.", example: "You guessed 99 instead of 100. Close, but no cigar." },
+    { idiom: "Come clean", literal: "Washing dirt off your skin physically.", figurative: "To admit the truth, confess to a mistake or hidden secret.", arabic: "يعترف بالحقيقة كاملة / يريح ضميره ويكشف المستور.", example: "The boy finally came clean about losing the keys." },
+    { idiom: "Couch potato", literal: "A brown tuber sitting permanently on a soft sofa cushion.", figurative: "A lazy person who spends an excessive amount of time watching television or screens.", arabic: "كسول يقضي يومه أمام الشاشات دون حراك.", example: "Don't be a couch potato; go out and get some fresh air." },
+    { idiom: "Crocodile tears", literal: "A massive reptile shedding liquid while eating prey.", figurative: "False, insincere, or fabricated displays of grief or sorrow.", arabic: "دموع التماسيح / الحزن المزيف المخادع.", example: "She shed crocodile tears over her rival's failure." },
+    { idiom: "Cry wolf", literal: "Shouting about an apex predator when the fields are empty.", figurative: "To raise a false alarm repeatedly, so that people do not believe you when danger is real.", arabic: "يكذب حتى لا يصدقه أحد / يطلق إنذاراً كاذباً.", example: "If you keep crying wolf, no one will help you when you're in trouble." },
+    { idiom: "Curiosity killed the cat", literal: "A feline falling into danger due to investigating a hole.", figurative: "Being too inquisitive or curious can lead you into dangerous situations.", arabic: "الفضول يقتل صاحبه / تدخل فيما لا يعنيك تلقى ما لا يرضيك.", example: "Don't ask too many personal questions; curiosity killed the cat." },
+    { idiom: "Cut to the chase", literal: "Splicing a movie film straight to the action sequence.", figurative: "To get directly to the point without wasting time on details.", arabic: "يدخل في صلب الموضوع مباشرة / يترك الهوامش جانباً.", example: "We don't have much time, so please cut to the chase." },
+    { idiom: "Dark horse", literal: "A black stallion whose racing stats are unknown to gamblers.", figurative: "A candidate or competitor about whom little is known but who wins unexpectedly.", arabic: "الحصان الأسود / الفائز المفاجئ الذي لم يتوقعه أحد.", example: "No one expected that small team to win; they were a dark horse." },
+    { idiom: "Dead ringer", literal: "A tolling bell ringing for a deceased person.", figurative: "An exact duplicate or double of another person or object.", arabic: "نسخة طبق الأصل / يخلق من الشبه أربعين.", example: "That actor is a dead ringer for my uncle." },
+    { idiom: "Don't count your chickens before they hatch", literal: "Enumerating baby birds while they are still inside fragile shells.", figurative: "Do not make plans based on future events that might not happen.", arabic: "لا تبنِ قصوراً في الهواء / لا تضمن النتيجة قبل تحققها.", example: "You haven't passed the interview yet, so don't count your chickens before they hatch." },
+    { idiom: "Down to earth", literal: "Stepping low onto the soil ground.", figurative: "Practical, realistic, humble, and sensible in nature.", arabic: "متواضع وعقلاني / واقعي وبسيط غير متكبر.", example: "Despite being rich, the director is very down to earth." },
+    { idiom: "Drive someone up the wall", literal: "Forcing a person to climb vertical bricks out of madness.", figurative: "To annoy, irritate, or frustrate someone intensely.", arabic: "يفقد المرء صوابه / يرفع ضغطه ويزعجه بشدة.", example: "That constant clicking sound is driving me up the wall." },
+    { idiom: "Drop the ball", literal: "Allowing a leather sports sphere to slip from your hands.", figurative: "To make a mistake, fail in a responsibility, or mishandle a situation.", arabic: "يرتكب خطأ فادحاً بسبب الإهمال / يقصر في واجبه.", example: "The assistant dropped the ball and forgot to book the ticket." },
+    { idiom: "Eaten out of house and home", literal: "Termites consuming the structure of a dwelling.", figurative: "To consume a large amount of someone's food supplies, costing them heavily.", arabic: "أكل الأخضر واليابس / التهم كل الطعام المخزن في البيت.", example: "My teenage cousins stayed for a week and ate us out of house and home." },
+    { idiom: "Elbow room", literal: "Having space to move your joints horizontally.", figurative: "Adequate space to move or work comfortably without crowding.", arabic: "مساحة كافية للتحرك بحرية / متسع من المكان.", example: "The small desk doesn't give me enough elbow room." },
+    { idiom: "Fair-weather friend", literal: "A companion who only walks with you on sunny days.", figurative: "A friend who supports you only when times are good and deserts you in trouble.", arabic: "صديق المصلحة / صديق وقت الرخاء فقط يختفي في الشدة.", example: "He disappeared when I lost my money; he's a fair-weather friend." },
+    { idiom: "Fall head over heels", literal: "Tumbling upside down down a hill.", figurative: "To fall deeply and completely in love, or become totally infatuated.", arabic: "واقع في الحب لشوشته / متيم بالكامل وعاشق.", example: "He fell head over heels in love with his new baby son." },
+    { idiom: "Find your feet", literal: "Searching the floor to locate your lower limbs.", figurative: "To become familiar with and confident in a new situation or environment.", arabic: "يتأقلم مع الوضع الجديد / يقف على قدميه بثقة.", example: "It took Mousa a few weeks to find his feet in Abu Dhabi." },
+    { idiom: "Flash in the pan", literal: "A tiny spark of gunpowder lighting up a pan without launching a bullet.", figurative: "A sudden, brief success that is not repeated or sustained.", arabic: "طفرة مؤقتة / زوبعة في فنجان / نجاح عابر لا يدوم.", example: "His first video got millions of views, but his channel was just a flash in the pan." },
+    { idiom: "Fly off the handle", literal: "The iron head of an axe flying off its wooden stick during a swing.", figurative: "To suddenly lose control of one's temper and become extremely angry.", arabic: "يستشيط غضباً فجأة / يخرج عن طوره ويفقد أعصابه.", example: "He flew off the handle when he saw the broken screen." }
 ];
 
 let currentPageIndex = 0;
-const totalPages = idiomsData.length + 1; // +1 لحساب صفحة الغلاف
+const totalPages = idiomsData.length + 1; 
 const bookElement = document.getElementById('book');
 const progressBar = document.getElementById('progressBar');
 
+// دالة إنشاء الصفحات برمجياً من المصفوفة المكونة من 100 عنصر
 function initBook() {
-    // بناء الصفحات بعد الغلاف
     idiomsData.forEach((data, index) => {
         const page = document.createElement('div');
         page.className = `page`;
@@ -144,27 +257,27 @@ function initBook() {
         page.innerHTML = `
             <div class="page-content">
                 <div>
-                    <div class="section-title">Idiom</div>
+                    <div class="section-title">Idiom (${index + 1}/100)</div>
                     <h2 class="idiom-title">${data.idiom}</h2>
                 </div>
                 <div>
-                    <div class="section-title">Literal Meaning</div>
-                    <p class="meaning-box">${data.literal}</p>
+                    <div class="section-title">Literal Meaning (المعنى الحرفي)</div>
+                    <p class="meaning-box" style="font-style: italic; color: var(--text-muted); font-size: 0.95rem;">${data.literal}</p>
                 </div>
                 <div>
-                    <div class="section-title">Figurative Meaning</div>
+                    <div class="section-title">Figurative Meaning (المعنى المجازي)</div>
                     <p class="meaning-box"><strong>${data.figurative}</strong></p>
                 </div>
                 <div>
-                    <div class="section-title" style="color: #2980b9;">المعنى بالعربي والمجازي</div>
-                    <p class="meaning-box" dir="rtl" style="font-family: system-ui, sans-serif; text-align: right; color: #2980b9;"><strong>${data.arabic}</strong></p>
+                    <div class="section-title" style="color: var(--accent);">الشرح والترجمة بالعربية</div>
+                    <p class="arabic-box">${data.arabic}</p>
                 </div>
                 <div>
                     <div class="section-title">Example Sentence</div>
                     <p class="example-box">"${data.example}"</p>
                 </div>
                 <div class="page-footer">
-                    <span>${index + 1} / ${idiomsData.length}</span>
+                    <span>Page ${index + 1}</span>
                 </div>
             </div>
         `;
@@ -185,13 +298,24 @@ function updateUI() {
 function nextPage() { if (currentPageIndex < totalPages - 1) { currentPageIndex++; updateUI(); } }
 function prevPage() { if (currentPageIndex > 0) { currentPageIndex--; updateUI(); } }
 
+// تفعيل ميزة التمرير (Swipe) باللمس للتابلت والهاتف لليمين واليسار
 let touchStartX = 0; let touchEndX = 0;
 bookElement.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
-bookElement.addEventListener('touchend', e => { touchEndX = e.changedTouches[0].screenX; if (touchStartX - touchEndX > 50) nextPage(); if (touchEndX - touchStartX > 50) prevPage(); }, { passive: true });
+bookElement.addEventListener('touchend', e => { 
+    touchEndX = e.changedTouches[0].screenX; 
+    if (touchStartX - touchEndX > 60) nextPage(); // السحب لليسار يقلب للأمام
+    if (touchEndX - touchStartX > 60) prevPage(); // السحب لليمين يقلب للخلف
+}, { passive: true });
 
+// تشغيل ميزة الوضع الليلي والنهاري
 document.getElementById('themeToggle').addEventListener('click', () => {
-    if (document.documentElement.getAttribute('data-theme') === 'dark') { document.documentElement.removeAttribute('data-theme'); } else { document.documentElement.setAttribute('data-theme', 'dark'); }
+    if (document.documentElement.getAttribute('data-theme') === 'dark') { 
+        document.documentElement.removeAttribute('data-theme'); 
+    } else { 
+        document.documentElement.setAttribute('data-theme', 'dark'); 
+    }
 });
+
 window.onload = initBook;
 </script>
 </body>
