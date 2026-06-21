@@ -52,6 +52,14 @@
         }
         .page.active { opacity: 1; pointer-events: auto; z-index: 10; }
         .page-content { display: flex; flex-direction: column; gap: 20px; height: 100%; justify-content: center; }
+        
+        /* تجميل واجهة الغلاف */
+        .cover-content { text-align: center; display: flex; flex-direction: column; justify-content: space-between; height: 100%; padding: 20px 10px; }
+        .cover-title { font-size: 2.2rem; color: var(--accent); margin-bottom: 15px; line-height: 1.4; }
+        .cover-subtitle { font-family: system-ui, sans-serif; font-size: 1.2rem; line-height: 1.6; direction: rtl; margin-bottom: 30px; }
+        .instruction-box { background-color: rgba(41, 128, 185, 0.1); border: 1px dashed #2980b9; padding: 15px; border-radius: 8px; direction: rtl; font-family: system-ui, sans-serif; font-size: 0.95rem; line-height: 1.5; color: #2980b9; }
+        .start-btn { background-color: var(--accent); color: white; border: none; padding: 12px 25px; border-radius: 25px; font-size: 1.1rem; cursor: pointer; font-family: system-ui, sans-serif; font-weight: bold; margin-top: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+
         .idiom-title { font-size: 1.8rem; color: var(--accent); line-height: 1.3; padding-bottom: 10px; border-bottom: 2px solid var(--border-color); }
         .section-title { font-family: system-ui, sans-serif; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 2px; }
         .meaning-box { font-size: 1.05rem; line-height: 1.4; }
@@ -60,13 +68,13 @@
         .nav-overlay { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; background: var(--book-bg); border: 1px solid var(--border-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
         .nav-prev { left: -20px; }
         .nav-next { right: -20px; }
-        @media (max-width: 600px) { .nav-overlay { display: none; } body { padding: 10px; } .book-container { height: 70vh; } }
+        @media (max-width: 600px) { .nav-overlay { display: none; } body { padding: 10px; } .book-container { height: 75vh; } .cover-title { font-size: 1.8rem; } }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>📖 Essential English Idioms</h1>
+    <h1>📖 Idioms Learning</h1>
     <div class="controls">
         <button class="btn" id="themeToggle">🌗 Mode</button>
     </div>
@@ -79,7 +87,28 @@
 <div class="book-container">
     <div class="nav-overlay nav-prev" id="prevBtn" onclick="prevPage()">❮</div>
     <div class="nav-overlay nav-next" id="nextBtn" onclick="nextPage()">❯</div>
-    <div class="book" id="book"></div>
+    <div class="book" id="book">
+        <div class="page active" id="coverPage">
+            <div class="cover-content">
+                <div>
+                    <h2 class="cover-title">Welcome to Mousa's Website</h2>
+                    <p class="cover-subtitle">لتعلم مصطلحات اللغة الإنجليزية (Idioms) ومعانيها المجازية باللغتين العربية والإنجليزية بطريقة تفاعلية سهلة.</p>
+                </div>
+                
+                <div class="instruction-box">
+                    <strong>💡 طريقة تصفح الكتاب:</strong><br>
+                    يمكنك تقليب الصفحات عبر **التمرير (السحب) لليمين أو اليسار** على الشاشة، أو استخدام الأسهم الجانبية (❮ و ❯).
+                </div>
+
+                <div>
+                    <button class="start-btn" onclick="nextPage()">ابدأ التصفح الآن 📖</button>
+                </div>
+                <div class="page-footer">
+                    <span>الغلاف</span>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -95,107 +124,22 @@ const idiomsData = [
     { idiom: "Burn the midnight oil", literal: "Keeping an oil lamp lit late into the night.", figurative: "To study or work late into the night.", arabic: "يسهر الليالي / يواصل الليل بالنهار (للدراسة أو العمل المكثف).", example: "Mousa had to burn the midnight oil to prepare for his presentation at the institute." },
     { idiom: "Once in a blue moon", literal: "An event occurring during a rare second full moon in a month.", figurative: "Something that happens very rarely.", arabic: "في النادر جداً / من العيد للعيد.", example: "Living abroad means I only get to see my extended family once in a blue moon." },
     { idiom: "Blessing in disguise", literal: "A holy gift wearing a mask.", figurative: "A misfortune that eventually results in something good happening later.", arabic: "ربّ ضارة نافعة / وعسى أن تكرهوا شيئاً وهو خير لكم.", example: "Losing that job was a blessing in disguise because I found a much better one." },
-    { idiom: "Call it a day", literal: "Giving a name to a 24-hour period.", figurative: "To stop working on something for the rest of the day.", arabic: "يكتفي بهذا بقدر اليوم / ينهي عمل اليوم.", example: "We've been coding for six hours; let's call it a day." },
+    { idiom: "Call it a day", literal: "Giving a name to a 24-hour period.", figurative: "To stop working on something for the rest of the day.", arabic: "يكتفي بهذا القدر اليوم / ينهي عمل اليوم.", example: "We've been coding for six hours; let's call it a day." },
     { idiom: "Cold shoulder", literal: "Serving someone a cold piece of meat from an animal's shoulder.", figurative: "To intentionally ignore someone or treat them in an unfriendly way.", arabic: "يعامله بجفاء / يصدّ عنه / يعطيه ظهره.", example: "After our argument, she gave me the cold shoulder all week." },
     { idiom: "Don't judge a book by its cover", literal: "Evaluating the contents of a novel solely by its front art.", figurative: "You shouldn't form an opinion about something based purely on its outward appearance.", arabic: "لا تحكم على الكتاب من غلافه / المظاهر خداعة.", example: "The hotel looked run-down from the outside, but inside it was beautiful. Don't judge a book by its cover." },
-    { idiom: "The last straw", literal: "The final single piece of dried grass placed on a camel's back.", figurative: "The final problem in a series of problems that makes a situation intolerable.", arabic: "القشة التي قصمت ظهر البعير (الحد المتبقي للصبر).", example: "When the computer crashed and lost my document, it was the last straw." },
-    { idiom: "Barking up the wrong tree", literal: "A hunting dog looking for an animal up a tree it isn't in.", figurative: "Pursuing a mistaken line of thought or course of action.", arabic: "يطرق الباب الخاطئ / يفتش في المكان الخطأ.", example: "If you think I took your keys, you're barking up the wrong tree." },
-    { idiom: "Cry over spilled milk", literal: "Weeping because liquid dairy fell on the floor.", figurative: "Worrying or complaining about past mistakes that cannot be undone.", arabic: "البكاء على اللبن المسكوب (الندم على ما فات).", example: "We lost the match, but there's no use crying over spilled milk now." },
-    { idiom: "Beat around the bush", literal: "Hitting the outer bushes instead of finding the hidden game animal inside.", figurative: "Avoiding talking about the main topic directly.", arabic: "يلف ويدور / يراوغ في الكلام.", example: "Stop beating around the bush and tell me what you really think." },
-    { idiom: "Best of both worlds", literal: "Enjoying the physical realities of two separate planets.", figurative: "A situation where you can enjoy the advantages of two very different opportunities.", arabic: "جمع بين الميزتين / كسب من الجهتين.", example: "Working hybrid lets him enjoy the best of both worlds." },
-    { idiom: "Get out of hand", literal: "An object physically slipping from a person's grip.", figurative: "A situation becoming chaotic, unmanageable, or out of control.", arabic: "يخرج عن السيطرة / يفلت الزمام.", example: "The protests quickly got out of hand as crowds grew larger." },
-    { idiom: "Pull someone's leg", literal: "Grabbing someone's foot and tugging it.", figurative: "To play a playful joke on someone by telling them something untrue.", arabic: "يمزح مع شخص / يضحك عليه بالقول (بالمعنى الودي).", example: "Don't worry, I didn't actually lose your book; I was just pulling your leg." },
-    { idiom: "Through thick and thin", literal: "Walking through dense woods and sparse fields.", figurative: "Supporting someone through all good times and difficult times.", arabic: "في السراء والضراء / في الحلوة والمرة.", example: "Good friends stay together through thick and thin." },
-    { idiom: "On the ball", literal: "Standing balanced directly on top of a sphere.", figurative: "Being alert, quick to understand, and reacting efficiently to things.", arabic: "نبيه / ومصحصح / سريع البديهة.", example: "The new assistant is really on the ball and catches mistakes instantly." },
-    { idiom: "Cut corners", literal: "Using a knife to slice off the sharp edges of an object.", figurative: "Doing something poorly or cutting back on requirements to save time or money.", arabic: "يستسهل / يختصر الطرق بطريقة تخل بالجودة.", example: "Never cut corners when it comes to web security protocols." },
-    { idiom: "Add insult to injury", literal: "Verbally mocking someone while they are physically hurt.", figurative: "To make a bad situation even worse with an additional negative action.", arabic: "يزيد الطين بلة / فوق حقه دقة.", example: "They canceled our flight, and to add insult to injury, they lost our bags." },
-    { idiom: "See eye to eye", literal: "Two people staring directly into each other's pupils.", figurative: "To fully agree with someone else.", arabic: "يتفقان تماماً / على قلب رجل واحد.", example: "My business partner and I don't always see eye to eye on design choices." },
-    { idiom: "Hear it on the grapevine", literal: "Listening to whispers coming out of grape plants.", figurative: "To hear news or rumors through informal conversations.", arabic: "سمعت طشاش / وكالة يقولون (سمع إشاعة أو خبر غير رسمي).", example: "I heard on the grapevine that the company is moving offices." },
-    { idiom: "Straight from the horse's mouth", literal: "Words coming directly from an equine's throat.", figurative: "Hearing information directly from the highest authorities or the person concerned.", arabic: "من المصدر الموثوق / من فم هذا الشخص مباشرة.", example: "I know it's true because I heard it straight from the horse's mouth." },
-    { idiom: "Take it with a grain of salt", literal: "Consuming a piece of news with a small crystal of sodium chloride.", figurative: "To not completely believe a statement or take it too seriously.", arabic: "لا تصدقه بالكامل / خذ كلامه بحذر وتحفظ.", example: "Most of what you read on tabloid sites should be taken with a grain of salt." },
-    { idiom: "Face the music", literal: "Turning your body to look directly at an orchestra.", figurative: "To accept the unpleasant consequences of your actions.", arabic: "يتحمل العواقب / يواجه النتيجة المرة لأفعاله.", example: "After breaking the window, he knew he had to face the music and tell his parents." },
-    { idiom: "Ball is in your court", literal: "A tennis ball resting on your side of the net.", figurative: "It is now your responsibility to make the next move or decision.", arabic: "الكرة في ملعبك الآن (القرار لك).", example: "I sent over the contract, so the ball is in your court now." },
-    { idiom: "Kill two birds with one stone", literal: "Throwing a rock and hitting two avian creatures simultaneously.", figurative: "To achieve two tasks or objectives with a single action.", arabic: "ضرب عصفورين بحجر واحد.", example: "By cycling to work, I kill two birds with one stone: I save money and get exercise." },
-    { idiom: "Break the ice", literal: "Using a ship or pickaxe to smash frozen lake surfaces.", figurative: "To relieve tension or social awkwardness when meeting new people.", arabic: "يكسر الجليد / يزيل الحواجز الاجتماعية.", example: "An introductory game is a great way to break the ice in a new class." },
-    { idiom: "Go down in flames", literal: "An airplane crashing down while on fire.", figurative: "To fail spectacularly, suddenly, and completely.", arabic: "يفشل فشلاً ذريعاً ومدوياً.", example: "The candidate's political career went down in flames after the scandal." },
-    { idiom: "Hit the sack", literal: "Physically punching a large burlap bag.", figurative: "To go to bed to sleep because you are tired.", arabic: "يخلد إلى النوم / يرمي جثته على السرير.", example: "I'm exhausted after that long study session, time to hit the sack." },
-    { idiom: "Loose cannon", literal: "An unsecured artillery weapon rolling dangerously across a ship deck.", figurative: "An unpredictable person whose actions might cause unexpected damage.", arabic: "شخص أرعن ومندفع / قنبلة موقوتة خطيرة.", example: "He's a brilliant programmer, but his temper makes him a bit of a loose cannon." },
-    { idiom: "Miss the boat", literal: "Arriving late at the dock as the vessel sails away.", figurative: "To miss an excellent opportunity by being too slow to act.", arabic: "يفوته القطار / تضيع عليه الفرصة.", example: "If you don't apply for the scholarship today, you'll miss the boat." },
-    { idiom: "Off the hook", literal: "A fish safely detaching itself from a metal fishing hook.", figurative: "To escape a difficult situation, duty, or blame.", arabic: "ينجو من المأزق / يخرج من اللوم والمسؤولية.", example: "The teacher forgot to check homework, so I was let off the hook." },
-    { idiom: "On thin ice", literal: "Skating on a frozen lake that is about to crack.", figurative: "In a precarious, risky, or dangerous situation where errors will cause trouble.", arabic: "في وضع حرج وخطير / يلعب بالنار.", example: "Missing another deadline will put you on very thin ice with the boss." },
-    { idiom: "Play devil's advocate", literal: "An attorney defending Satan in court.", figurative: "To argue against an idea purely for the sake of debate or testing its validity.", arabic: "يتبنى الرأي المعاكس لمجرد النقاش واختبار الفكرة.", example: "Let me play devil's advocate for a moment: what if our budget gets cut?" },
-    { idiom: "Put all your eggs in one basket", literal: "Carrying every fragile bird egg you own in a single container.", figurative: "To risk everything you have on a single venture or option.", arabic: "يضع كل البيض في سلة واحدة (يخاطر بكل ممتلكاته في مكان واحد).", example: "Apply to multiple universities; don't put all your eggs in one basket." },
-    { idiom: "Rain on someone's parade", literal: "Storm clouds pouring down water on a celebratory street march.", figurative: "To spoil someone's plans, happiness, or enthusiasm.", arabic: "يعكر صفو مزاجه / يخرب فرحة شخص ما.", example: "I hate to rain on your parade, but the outdoor event has been canceled." },
-    { idiom: "Rock the boat", literal: "Shaking a small boat from side to side violently.", figurative: "To disturb an existing stable situation and cause trouble.", arabic: "يثير القلاقل / يزعزع الاستقرار الحالي.", example: "Everything is going smoothly, so please don't rock the boat now." },
-    { idiom: "Save for a rainy day", literal: "Putting money in a box to use only when water falls from the sky.", figurative: "To reserve money or resources for an unforeseen future time of need.", arabic: "القرش الأبيض ينفع في اليوم الأسود.", example: "Instead of spending your bonus, you should save it for a rainy day." },
-    { idiom: "See the light", literal: "Suddenly perceiving illumination after being in darkness.", figurative: "To finally understand something or change your mind after a long time.", arabic: "يبصر النور / يدرك الحقيقة أخيراً.", example: "He finally saw the light and decided to quit smoking." },
-    { idiom: "Skating on thin ice", literal: "Gliding across unstable ice sheets.", figurative: "Taking massive risks that could lead to immediate trouble.", arabic: "يسير في حقل ألغام / يجازف بشكل كبير.", example: "He is skating on thin ice by showing up late to work every morning." },
-    { idiom: "Speak of the devil", literal: "Chanting the name of a demon causing him to appear.", figurative: "Said when a person appears just as you were talking about them.", arabic: "ابن الحلال عند ذكره يبان.", example: "Hi Tom! Speak of the devil—we were just discussing your project." },
-    { idiom: "Take with a grain of salt", literal: "Eating news with a pinch of seasoning.", figurative: "Accepting a claim with a healthy dose of skepticism.", arabic: "لا تأخذه كحقيقة مطلقة / شكك فيه قليلاً.", example: "You should take his promises with a grain of salt; he rarely keeps them." },
-    { idiom: "Throw in the towel", literal: "A boxing coach throwing a rag into the ring to stop a fight.", figurative: "To give up, surrender, or admit defeat in a task.", arabic: "يرفع الراية البيضاء / يستسلم.", example: "After trying to fix the engine for hours, he threw in the towel." },
-    { idiom: "Touch and go", literal: "Briefly hitting the ground and immediately taking off again.", figurative: "An uncertain, delicate, or precarious situation with an unpredictable result.", arabic: "وضع حرج ومتقلب / على كف عفريت.", example: "The doctor said it was touch and go for a few hours after surgery." },
-    { idiom: "Under your nose", literal: "An object resting physically below your nostrils.", figurative: "Right in front of you, clearly visible, yet unnoticed.", arabic: "تحت ناظريك / أمام عيونك تماماً.", example: "I searched the whole house for my glasses, and they were right under my nose." },
-    { idiom: "Up in the air", literal: "Objects floating weightless above the ground.", figurative: "A plan or decision that remains uncertain or unresolved.", arabic: "معلّق في الهواء / لم يحسم بعد.", example: "Our vacation plans are still up in the air until we get approval." },
-    { idiom: "Walking on eggshells", literal: "Stepping carefully over fragile bird shells without crushing them.", figurative: "Being extremely cautious not to offend or upset someone.", arabic: "يمشي على بيض / حذر جداً في تعامله خوفاً من المشاكل.", example: "Everyone at the office is walking on eggshells around the angry manager." },
-    { idiom: "Water under the bridge", literal: "River water flowing underneath a pedestrian walkway.", figurative: "Past events or conflicts that are over, forgotten, and no longer matter.", arabic: "شيء مضى وانقضى / صار من الماضي.", example: "We had our disagreements in the past, but that's all water under the bridge now." },
-    { idiom: "Wear your heart on your sleeve", literal: "Pinning your actual cardiac organ to your shirt cuff.", figurative: "To openly display your intimate emotions for everyone to see.", arabic: "قلبه على لسانه / مشاعره مكشوفة وواضحة.", example: "He wears his heart on his sleeve, so you always know exactly how he feels." },
-    { idiom: "Weather the storm", literal: "A ship surviving a violent oceanic tempest.", figurative: "To successfully survive or deal with a difficult problem or period.", arabic: "يتخطى الأزمة بنجاح / يركب الصعاب.", example: "The company managed to weather the economic storm through cost-cutting." },
-    { idiom: "Wet behind the ears", literal: "A newborn animal that hasn't dried off yet behind its ears.", figurative: "Immaterially young, inexperienced, or naive.", arabic: "غِرّ / غشيم / عوده طري (قليل الخبرة).", example: "Don't trust him with major decisions yet; he's still wet behind the ears." },
-    { idiom: "A penny for your thoughts", literal: "Offering a small one-cent coin to purchase your mental reflections.", figurative: "A polite way to ask someone what they are thinking about.", arabic: "فيم تفكر؟ / عطني فكرتك وجزاؤك قرش.", example: "You've been quiet for a while now—a penny for your thoughts?" },
-    { idiom: "Actions speak louder than words", literal: "Physical movements making more noise than human vocal cords.", figurative: "What you actually do has more impact than what you merely say you will do.", arabic: "الأفعال أبلغ من الأقوال.", example: "He promises to help all the time, but actions speak louder than words." },
-    { idiom: "Add fuel to the fire", literal: "Pouring gasoline onto an open blazing flame.", figurative: "To make an already angry or tense situation significantly worse.", arabic: "يزيد النار حطباً / يصب الزيت على النار.", example: "Bringing up old arguments will only add fuel to the fire." },
-    { idiom: "All ears", literal: "A body completely covered in human hearing organs.", figurative: "Listening with full attention and intense eagerness.", arabic: "كلي آذان صاغية.", example: "Tell me how your interview went—I'm all ears!" },
-    { idiom: "At the drop of a hat", literal: "Doing something immediately when a head covering hits the ground.", figurative: "Doing something instantly without any hesitation or advanced planning.", arabic: "على أهبة الاستعداد / بلمحة عين وبدون تردد.", example: "She loves traveling and will pack her bags at the drop of a hat." },
-    { idiom: "Back to the drawing board", literal: "Returning to a blank easel to sketch a new blueprint.", figurative: "Starting a project completely over because a previous attempt failed completely.", arabic: "العودة إلى نقطة الصفر / إعادة التخطيط من جديد.", example: "Our prototype failed the stress test, so it's back to the drawing board." },
-    { idiom: "Barking up the wrong tree", literal: "A hound cornering an imaginary animal in an empty tree.", figurative: "Looking for solutions in the completely wrong place.", arabic: "ينفخ في رماد / يتجه للعنوان الخاطئ.", example: "If you expect me to pay for this, you're barking up the wrong tree." },
-    { idiom: "Beat the clock", literal: "Physically punching a ticking time device.", figurative: "To finish a task or reach a goal before a specified time limit expires.", arabic: "يسابقة الزمن / ينجز المهمة قبل فوات الأوان.", example: "We managed to beat the clock and submit the proposal minutes before midnight." },
-    { idiom: "Bite off more than you can chew", literal: "Taking a massive mouthful of food that you cannot swallow.", figurative: "Taking on a commitment or responsibility that is far too big for you to handle.", arabic: "يحمّل نفسه فوق طاقتها / يأخذ لقمة أكبر من فمه.", example: "I think I bit off more than I could chew by taking five classes." },
-    { idiom: "Blind leading the blind", literal: "A person without sight guiding another person without sight down a street.", figurative: "Incompetent or uninformed people trying to guide others.", arabic: "أعمى يقود أعمى (فاقد الشيء لا يعطيه).", example: "Neither of us knows how to fix engines, so this is the blind leading the blind." },
-    { idiom: "Blow off steam", literal: "A pressure valve releasing hot water vapor from an engine boiler.", figurative: "Doing an activity to release built-up anger, stress, or high energy.", arabic: "يروح عن نفسه / يفرغ طاقته السلبية وغضبه.", example: "I go running after a stressful day at the office to blow off steam." },
-    { idiom: "By the skin of your teeth", literal: "Escaping using a microscopically thin outer layer found on human teeth.", figurative: "Succeeding or escaping a negative situation by the absolute narrowest margin.", arabic: "بأعجوبة / بشق الأنفس / على الحافة تماماً.", example: "He passed the final exam by the skin of his teeth." },
-    { idiom: "Chasing rainbows", literal: "Running across a field to touch a colorful light refraction.", figurative: "Pursuing unrealistic, illusory, or completely unobtainable goals.", arabic: "يجري وراء الأوهام / يطارد السراب.", example: "Trying to become a famous Hollywood actor overnight is just chasing rainbows." },
-    { idiom: "Chip on your shoulder", literal: "A small piece of wood balancing on your collarbone waiting to be knocked off.", figurative: "Holding a deeply ingrained grievance or behaving in an easily offended, angry way.", arabic: "حاقد أو سريع التحسس بسبب عقدة قديمة.", example: "He has had a chip on his shoulder ever since he was passed over for promotion." },
-    { idiom: "Close but no cigar", literal: "Coming near a carnival target game but not winning the rolled tobacco prize.", figurative: "Coming very close to succeeding but ultimately falling short of the goal.", arabic: "قريب جداً ولكن لم يصبه الفوز / قاب قوسين ولم ينجح.", example: "Your guess was 98 out of 100—close but no cigar!" },
-    { idiom: "Come clean", literal: "Washing your physical body until all dirt is gone.", figurative: "To be completely honest and confess to something you hid.", arabic: "يعترف بالحقيقة / يقرّ بذنبه الصافي.", example: "You need to come clean and tell them you lost the document." },
-    { idiom: "Curiosity killed the cat", literal: "Inquisitive nature causing a feline to lose its life.", figurative: "Being overly inquisitive or snooping can lead you into dangerous situations.", arabic: "الفضول قتل صاحبه / من تدخل فيما لا يعنيه لقى ما لا يرضيه.", example: "Don't ask too many personal questions; curiosity killed the cat." },
-    { idiom: "Cut to the chase", literal: "Splicing a movie film strip directly to the action sequence.", figurative: "To leave out irrelevant details and move directly to the most critical point.", arabic: "ادخل في الموضوع مباشرة / هاتها من الآخر.", example: "We don't have much time, so please cut to the chase." },
-    { idiom: "Dig your heels in", literal: "Pushing your boot heels deep into soft soil to prevent being pulled.", figurative: "To stubbornly refuse to alter your mind, opinion, or course of action.", arabic: "يتشبث برأيه بعناد / يركب رأسه.", example: "The union dug their heels in and refused the lower wage offer." },
-    { idiom: "Do a runner", literal: "Performing a sprint out of a building.", figurative: "To leave a restaurant or venue hastily without paying the bill.", arabic: "يهرب دون دفع الحساب / فص ملح وذاب.", example: "They finished their expensive meal and decided to do a runner." },
-    { idiom: "Down to the wire", literal: "Racehorses running until they touch a physical wire at the finish line.", figurative: "A situation whose outcome is only decided at the absolute last second.", arabic: "حتى الأنفاس الأخيرة / في اللحظات الأخيرة الحاسمة.", example: "The election went down to the wire with votes being counted late." },
-    { idiom: "Draw the line", literal: "Using a stick to scratch a boundary line into the dirt.", figurative: "To establish an absolute limit on what actions or behaviors you will accept.", arabic: "يضع حداً أحمر / يرفض التجاوز.", example: "I don't mind extra shifts, but I draw the line at working on Sundays." },
-    { idiom: "Drive someone up the wall", literal: "Forcing a person to operate a vehicle vertically up a wall.", figurative: "To severely annoy, irritate, or frustrate someone.", arabic: "يطيّر عقل شخص / يخرجه عن طوره من شدة الإزعاج.", example: "That loud clicking noise from the fan is driving me up the wall." },
-    { idiom: "Drop the ball", literal: "An athlete fumbling and letting a sports ball fall to the ground.", figurative: "To make a careless mistake or fail to fulfill an important responsibility.", arabic: "يقصّر في واجبه / يرتكب خطأً فادحاً بسبب السهو.", example: "We lost the client because someone dropped the ball on communication." },
-    { idiom: "Eaten out of house and home", literal: "Guests physically eating the structure of your dwelling.", figurative: "To consume massive amounts of food, exhausting someone's grocery supply.", arabic: "أكل الأخضر واليابس / خلّص على الأكل كله.", example: "My teenage cousins stayed for a week and ate us out of house and home." },
-    { idiom: "Every cloud has a silver lining", literal: "Atmospheric storm clouds having a bright metallic edge.", figurative: "Every difficult or negative situation has a positive aspect to it.", arabic: "إن مع العسر يسراً / انظر للجانب المشرق.", example: "Losing my flight let me see an old friend; every cloud has a silver lining." },
-    { idiom: "Fall from grace", literal: "Physically tripping and tumbling out of an elegant state.", figurative: "A sudden, massive loss of status, power, respect, or popularity.", arabic: "سقوط من العرش / خسارة فادحة للمكانة والاحترام.", example: "The CEO experienced a rapid fall from grace after the audit." },
-    { idiom: "Fish out of water", literal: "An aquatic animal resting gasping on dry land.", figurative: "A person who feels completely uncomfortable, awkward, or out of place in an unfamiliar setting.", arabic: "كالسمك خارج الماء (غريب وغير مرتاح في بيئته).", example: "As a programmer at a fashion show, I felt like a fish out of water." },
-    { idiom: "Fit as a fiddle", literal: "A violin string being perfectly tuned and in working order.", figurative: "Being in excellent physical shape, healthy, and highly energetic.", arabic: "بكامل صحته وعافيته / مثل الحصان.", example: "Grandpa is eighty years old, but he is still as fit as a fiddle." },
-    { idiom: "Fly off the handle", literal: "An axe head flying off its wooden handle during a swing.", figurative: "To suddenly lose your temper completely without a major reason.", arabic: "يستشيط غضباً / يطير ضوابه فجأة وبدون مبرر كبير.", example: "He tends to fly off the handle whenever things don't go his way." },
-    { idiom: "Follow in someone's footsteps", literal: "Walking directly inside the indentation left by another's shoe.", figurative: "To pursue the exact same career, path, or lifestyle choice as someone before you.", arabic: "يسير على خطى شخص ما / يقتفي أثره.", example: "Mousa decided to follow in his brother's footsteps and study business." },
-    { idiom: "Get a taste of your own medicine", literal: "Being forced to swallow a bitter fluid you mixed for others.", figurative: "Experiencing the same negative treatment you previously gave to others.", arabic: "يُسقى من نفس الكأس / يذوق وبال أمره.", example: "He is always mocking people, so it was great to see him get a taste of his own medicine." },
-    { idiom: "Get cold feet", literal: "Your toes experiencing a drop in temperature.", figurative: "To suddenly become nervous, frightened, or hesitant about completing an upcoming commitment.", arabic: "يصيبه التردد والخوف في اللحظة الأخيرة / يتراجع خوفاً.", example: "He was going to do a skydive, but he got cold feet at the last second." },
-    { idiom: "Go the extra mile", literal: "Walking an additional 1.6 kilometers down a road.", figurative: "To put in significantly more effort than is strictly required to achieve perfection.", arabic: "يبذل قصارى جهده / يقدم تضحية إضافية لإتقان العمل.", example: "She always goes the extra mile to ensure her language homework is flawless." },
-    { idiom: "Grease someone's palm", literal: "Applying lubricating oil to the inside of a person's hand.", figurative: "To bribe someone secretly to gain an unfair advantage.", arabic: "دهن السير / يقدّم رِشوة.", example: "They had to grease someone's palm to get the building permits quickly." },
-    { idiom: "Green with envy", literal: "Your skin turning a bright emerald color due to jealousy.", figurative: "To be intensely jealous or envious of someone else's possessions or success.", arabic: "يأكله الحقد والغيرة / أخضر من شدة الغيرة.", example: "When she saw my new phone, she turned green with envy." },
-    { idiom: "Head over heels", literal: "Your skull being positioned lower than your feet during a flip.", figurative: "Deeply, deeply, and completely in love with someone.", arabic: "واقع في الحب لشوشته / هائم تماماً في الغرام.", example: "They have been married for ten years and are still head over heels." },
-    { idiom: "In the nick of time", literal: "Arriving at a precise small notch carved into a time measuring stick.", figurative: "Arriving or completing a task at the absolute last possible moment before disaster.", arabic: "في الوقت المناسب تماماً / في آخر ثانية.", example: "The ambulance arrived in the nick of time." },
-    { idiom: "Keep an eye on", literal: "Detaching your eyeball and placing it on top of an object.", figurative: "To watch or monitor someone or something closely.", arabic: "احرسه / ضع عينك عليه / انتبه له.", example: "Can you please keep an eye on my laptop while I grab a coffee?" },
-    { idiom: "Let sleeping dogs lie", literal: "Leaving resting hounds undisturbed on the floor.", figurative: "To leave a past dispute or problematic situation alone to avoid triggering new trouble.", arabic: "لا تنبش الماضي البغيض / دع الفتنة نائمة.", example: "Don't bring up that old argument again; it's best to let sleeping dogs lie." },
-    { idiom: "No pain, no gain", literal: "Experiencing zero physical injury results in zero ownership.", figurative: "You must work intensely hard and endure hardships to achieve success.", arabic: "لا حلاوة بدون نار / ومن طلب العلا سهر الليالي.", example: "The workouts are brutal, but no pain, no gain." },
-    { idiom: "Ring a bell", literal: "An object striking a metal chime to create a ringing sound.", figurative: "Sounding vaguely familiar, though you cannot recall exact details.", arabic: "يبدو مألوفاً / يذكّرني بشيء ما دون تحديد دقيق.", example: "Her face doesn't ring a bell, but her name sounds familiar." },
-    { idiom: "Rule of thumb", literal: "Using your literal thumb to measure the exact length of objects.", figurative: "A broadly accurate guide, principle, or practical method based on experience rather than rigid science.", arabic: "قاعدة عامة تقريبية متبعة عرفاً.", example: "As a general rule of thumb, use simple fonts for web design headers." }
+    { idiom: "The last straw", literal: "The final single piece of dried grass placed on a camel's back.", figurative: "The final problem in a series of problems that makes a situation intolerable.", arabic: "القشة التي قصمت ظهر البعير (الحد المتبقي للصبر).", example: "When the computer crashed and lost my document, it was the last straw." }
 ];
 
 let currentPageIndex = 0;
-const totalPages = idiomsData.length;
+const totalPages = idiomsData.length + 1; // +1 لحساب صفحة الغلاف
 const bookElement = document.getElementById('book');
 const progressBar = document.getElementById('progressBar');
 
 function initBook() {
-    bookElement.innerHTML = ''; 
+    // بناء الصفحات بعد الغلاف
     idiomsData.forEach((data, index) => {
         const page = document.createElement('div');
-        page.className = `page ${index === 0 ? 'active' : ''}`;
+        page.className = `page`;
         
         page.innerHTML = `
             <div class="page-content">
@@ -220,7 +164,7 @@ function initBook() {
                     <p class="example-box">"${data.example}"</p>
                 </div>
                 <div class="page-footer">
-                    <span>${index + 1} / ${totalPages}</span>
+                    <span>${index + 1} / ${idiomsData.length}</span>
                 </div>
             </div>
         `;
