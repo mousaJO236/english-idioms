@@ -3,39 +3,78 @@
 <html lang="ar" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <title>Berlitz Advanced Quiz</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Berlitz Future Master</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #050505; }
+        .led-strip { position: fixed; top: 0; bottom: 0; width: 12px; background: #e0f7fa; box-shadow: 0 0 25px #ffffff, 0 0 10px #b3e5fc; z-index: 100; animation: pulse 2s infinite ease-in-out; }
+        .left-led { left: 0; } .right-led { right: 0; }
+        @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+        canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 99; }
+        .wrong-shake { animation: shake 0.4s; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
+    </style>
 </head>
-<body class="bg-gray-100 p-4">
-    <div id="app" class="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-lg">
+<body class="flex items-center justify-center p-4">
+    <div class="led-strip left-led"></div>
+    <div class="led-strip right-led"></div>
+    <canvas id="fireworks"></canvas>
+
+    <div id="app" class="relative z-10 w-full max-w-2xl bg-black/60 backdrop-blur-xl border border-white/10 rounded-3xl p-6 md:p-10 shadow-[0_0_50px_rgba(0,0,0,0.5)] text-white">
         <div id="quiz-ui">
-            <h1 class="text-2xl font-bold mb-4 text-center">اختبار معهد برليتز - 𝑴𝑶𝑼𝑺𝑨</h1>
-            <div id="progress" class="text-blue-600 font-bold mb-6"></div>
-            <div id="question" class="text-xl mb-6 font-medium text-gray-800"></div>
-            <div id="choices" class="space-y-3"></div>
+            <h1 class="text-2xl font-black mb-4 text-center text-cyan-400 uppercase tracking-[0.2em]">Berlitz Master 𝑴𝑶𝑼𝑺𝑨</h1>
+            <div id="progress" class="text-xs text-blue-300 font-bold mb-6 text-center"></div>
+            <div id="question" class="text-xl md:text-2xl mb-8 font-bold text-center"></div>
+            <div id="choices" class="space-y-4"></div>
         </div>
-        <div id="results-ui" class="hidden">
-            <h2 class="text-3xl font-bold mb-6 text-center">التقرير النهائي</h2>
-            <div id="final-score" class="text-2xl font-bold text-center mb-8"></div>
-            <div id="report-table" class="overflow-x-auto"></div>
-            <div class="mt-8 text-center">
-                <button onclick="window.print()" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 mx-2">حفظ كـ PDF / طباعة</button>
-                <button onclick="location.reload()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 mx-2">إعادة الاختبار</button>
+        <div id="results-ui" class="hidden text-center space-y-6">
+            <h2 class="text-4xl font-black text-cyan-500">نتيجة الاختبار</h2>
+            <div id="final-score" class="text-3xl font-bold"></div>
+            <div id="report-table" class="overflow-y-auto max-h-80 border border-white/10 rounded-lg text-xs"></div>
+            <div class="flex gap-4 justify-center">
+                <button onclick="window.print()" class="bg-emerald-600 px-6 py-3 rounded-full font-bold">حفظ كـ PDF</button>
+                <button onclick="location.reload()" class="bg-blue-600 px-6 py-3 rounded-full font-bold">إعادة الاختبار</button>
             </div>
         </div>
     </div>
 
     <script>
+        const canvas = document.getElementById('fireworks');
+        const ctx = canvas.getContext('2d');
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.onresize = resize; resize();
+
+        class Particle {
+            constructor(x, y, color) { this.x = x; this.y = y; this.color = color; this.velocity = {x: (Math.random()-0.5)*8, y: (Math.random()-0.5)*8}; this.alpha = 1; }
+            draw() { ctx.globalAlpha = this.alpha; ctx.beginPath(); ctx.arc(this.x, this.y, 2, 0, Math.PI*2); ctx.fillStyle = this.color; ctx.fill(); }
+            update() { this.x += this.velocity.x; this.y += this.velocity.y; this.alpha -= 0.01; }
+        }
+
+        let particles = [];
+        function firework(x, y) {
+            const colors = ['#FF4500', '#FFD700', '#00BFFF', '#FF69B4', '#FFFFFF'];
+            const color = colors[Math.floor(Math.random()*colors.length)];
+            for(let i=0; i<60; i++) particles.push(new Particle(x, y, color));
+        }
+
+        function animate() {
+            ctx.clearRect(0,0, canvas.width, canvas.height);
+            particles.forEach((p, i) => { p.update(); p.draw(); if(p.alpha <= 0) particles.splice(i, 1); });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
         const db = [
             {q: "I'm not coming back. I'd like a(n) ... ticket, please.", a: "one-way", i: ["round-trip", "economy"]},
-            {q: "Who manages your sales? These are the departments ...", a: "that manage sales", i: ["who manages sales", "which manage sales"]},
+            {q: "Who manages your sales?", a: "that manage sales", i: ["who manages sales", "which manage sales"]},
             {q: "What does Greenglass do?", a: "medium-sized multinational bottle manufacturer", i: ["small car manufacturer", "internet provider"]},
             {q: "Who called the accounting manager last week?", a: "who called her", i: ["who she called", "that she called"]},
             {q: "What kind of job is advertised?", a: "marketing", i: ["accounting", "teaching"]},
             {q: "What is a part of the job?", a: "answering customers", i: ["coding", "designing"]},
             {q: "What does the announcement say?", a: "You can get on the plane now.", i: ["The flight is delayed.", "Economy is full."]},
             {q: "What can passengers in economy do?", a: "They can wait.", i: ["They can board first.", "They can upgrade for free."]},
-            {q: "I feel like having shrimp. Ugh, no, I don't like ...", a: "seafood", i: ["vegetables", "meat"]},
+            {q: "I feel like having shrimp. Ugh, no, I don't like...", a: "seafood", i: ["vegetables", "meat"]},
             {q: "Do you like Ethiopian food? I do, but I prefer Kenyan ... Ethiopian.", a: "to", i: ["than", "over"]},
             {q: "Why is Ben's Deli terrible?", a: "unfriendly and the food is awful", i: ["too expensive", "service is too slow"]},
             {q: "Is that hotel really ...?", a: "the most comfortable", i: ["more comfortable", "most comfort"]},
@@ -46,31 +85,31 @@
             {q: "Do you play the piano? Not anymore. I stopped ...", a: "last year.", i: ["a month ago.", "yesterday."]},
             {q: "Why do you hate ... with that pianist?", a: "to sing", i: ["to play", "to dance"]},
             {q: "How does the lemon juice taste?", a: "sour", i: ["sweet", "bitter"]},
-            {q: "How often does Annie exercise?", a: "occasionally", i: ["daily", "never"]},
-            {q: "When does Annie exercise?", a: "if the sun is shining", i: ["at night", "in the rain"]},
-            {q: "What is good advice for Annie?", a: "Why don't you try running with friends?", i: ["Just stay home", "Eat more sugar"]},
-            {q: "How often does Ariel go running?", a: "regularly", i: ["rarely", "never"]},
-            {q: "When does Ariel run?", a: "in the evenings", i: ["in the morning", "at noon"]},
-            {q: "Did you download MP3s in the old days? No, we didn't.", a: "didn't use to download music", i: ["used to buy records", "didn't use to have internet"]},
+            {q: "How often does Annie exercise?", a: "She exercises occasionally.", i: ["She exercises daily.", "She never exercises."]},
+            {q: "When does Annie exercise?", a: "She exercises if the sun is shining.", i: ["She exercises at night.", "She exercises in the rain."]},
+            {q: "What is good advice for Annie?", a: "Why don't you try running with friends?", i: ["Just stay home.", "Eat more sugar."]},
+            {q: "How often does Ariel go running?", a: "She runs regularly.", i: ["She runs rarely.", "She never runs."]},
+            {q: "When does Ariel run?", a: "She runs in the evenings.", i: ["She runs in the morning.", "She runs at noon."]},
+            {q: "Did you download MP3s in the old days?", a: "didn't use to download music", i: ["used to buy records", "didn't use to have internet"]},
             {q: "That knob is ... off the dryer.", a: "to turn", i: ["for turn", "turning"]},
             {q: "Do you know ...?", a: "if there is a monthly fee", i: ["how is the fee", "where the fee is"]},
             {q: "Make yourself...", a: "at home", i: ["comfortable", "ready"]},
             {q: "What is the new apartment like?", a: "It has enough bedrooms.", i: ["It is very small.", "It has no windows."]},
-            {q: "When did these events take place?", a: "in the 1980s", i: ["in the 1970s", "last year"]},
-            {q: "What is better about the world now?", a: "He can talk to his friends more often.", i: ["Everything is cheaper", "People listen to radio more"]},
+            {q: "When did these events take place?", a: "It was in the 1980s.", i: ["It was in the 1970s.", "It was last year."]},
+            {q: "What is better about the world now?", a: "He can talk to his friends more often.", i: ["Everything is cheaper.", "People listen to radio more."]},
             {q: "When does the train arrive ... London?", a: "in", i: ["at", "on"]},
             {q: "She usually ... the bus to work.", a: "takes", i: ["take", "taking"]},
             {q: "Where do you work?", a: "large French Internet provider", i: ["small car manufacturer", "medium bottle factory"]},
-            {q: "What is Ariel's problem?", a: "not in shape", i: ["flu", "tired"]},
+            {q: "What is Ariel's problem?", a: "She is not in shape.", i: ["She has a flu.", "She is tired."]},
             {q: "We all enjoy ... the guitar.", a: "playing", i: ["to play", "play"]},
             {q: "What's the matter? Debbie...", a: "is feeling sick", i: ["hit her head", "has a sore throat"]},
             {q: "Who is Martin?", a: "manager", i: ["colleague", "teacher"]},
             {q: "I'm so glad you could...", a: "join us", i: ["meet us", "visit us"]},
             {q: "Where do you eat dinner?", a: "dining room", i: ["kitchen", "living room"]},
             {q: "How does Sam go to school?", a: "She walks alone.", i: ["She goes by bus.", "She walks with friends."]},
-            {q: "What did they do then?", a: "wrote a lot of postcards", i: ["sent emails", "called each other"]},
+            {q: "What did they do then?", a: "They wrote a lot of postcards.", i: ["They sent emails.", "They called each other."]},
             {q: "One ticket to Charlotte - business class or...", a: "economy", i: ["first class", "standard"]},
-            {q: "Who is Andy?", a: "woman who works for Gordon", i: ["man who manages sales", "manager"]},
+            {q: "Who is Andy?", a: "Andy is the woman who works for Gordon", i: ["Andy is the sales man", "Andy is the manager"]},
             {q: "What is the job?", a: "an office assistant", i: ["marketing manager", "sales representative"]},
             {q: "The suite was ... room in the hotel.", a: "the biggest", i: ["the smaller", "most big"]},
             {q: "Is collecting stamps your hobby?", a: "Yes, it still is", i: ["No, it isn't", "It used to be"]},
@@ -78,15 +117,15 @@
             {q: "I use my tablet ... the lights.", a: "to turn", i: ["for turning", "turning"]},
             {q: "Where can I do my work?", a: "study", i: ["bedroom", "garage"]},
             {q: "... lovely garden you have!", a: "What a", i: ["How", "Such"]},
-            {q: "What is different about the world now?", a: "People don't listen to the radio as much", i: ["People travel less", "Internet is slower"]},
+            {q: "What is different about the world now?", a: "People don't listen to the radio as much", i: ["People travel less.", "Internet is slower."]},
             {q: "I'm coming home on Thursday - ... ticket, please.", a: "one-way", i: ["round-trip", "fast"]},
             {q: "Nihal and I are going ... our friends this weekend.", a: "to visit", i: ["visit", "visiting"]},
             {q: "What should you bring to the beach?", a: "shoes", i: ["an umbrella", "a coat"]},
-            {q: "What does AutoSAX do?", a: "small Spanish car radio manufacturer", i: ["Internet provider", "Bottle manufacturer"]},
+            {q: "What does AutoSAX do?", a: "small Spanish car radio manufacturer", i: ["Internet provider.", "Bottle manufacturer."]},
             {q: "Do you like chicken?", a: "more than", i: ["to", "over"]},
             {q: "How is the new house?", a: "There's a lot of light.", i: ["It's very dark.", "It's too small."]},
             {q: "What is a part of the job?", a: "planning meetings", i: ["designing logos", "writing code"]},
-            {q: "Who can get the job?", a: "Sara, 30, manages the office", i: ["Arlo, 35, customer service", "John, 25, graduate"]}
+            {q: "Who can get the job?", a: "Sara, 30, manages the office", i: ["Arlo, 35, works in service", "John, 25, graduate"]}
         ];
 
         let quiz = [...db].sort(() => 0.5 - Math.random()).slice(0, 60);
@@ -95,36 +134,45 @@
         function render() {
             if (currentIdx >= quiz.length) { showResults(); return; }
             const q = quiz[currentIdx];
-            document.getElementById('progress').innerText = `سؤال ${currentIdx + 1} من ${quiz.length}`;
+            document.getElementById('progress').innerText = `سؤال ${currentIdx + 1} / ${quiz.length}`;
             document.getElementById('question').innerText = q.q;
             let opts = [q.a, ...q.i].sort(() => 0.5 - Math.random());
             document.getElementById('choices').innerHTML = opts.map(o => `
-                <button onclick="select('${o.replace(/'/g, "\\'")}')" class="w-full p-4 border-2 rounded-lg hover:bg-gray-50 transition">${o}</button>
+                <button onclick="select('${o.replace(/'/g, "\\'")}')" class="w-full p-4 border border-cyan-500/30 rounded-xl bg-cyan-900/30 hover:bg-cyan-500/40 transition font-bold text-lg">${o}</button>
             `).join('');
         }
 
         function select(ans) {
             const q = quiz[currentIdx];
             const isCorrect = ans === q.a;
-            if (isCorrect) score++;
+            if (isCorrect) {
+                score++;
+                let start = Date.now();
+                let interval = setInterval(() => {
+                    firework(Math.random()*window.innerWidth, Math.random()*window.innerHeight);
+                    if(Date.now() - start > 3000) clearInterval(interval);
+                }, 200);
+            }
             history.push({q: q.q, selected: ans, correct: q.a});
-            
             const btns = document.querySelectorAll('#choices button');
             btns.forEach(b => {
                 b.disabled = true;
-                if (b.innerText === q.a) b.classList.add('bg-green-200', 'border-green-500');
-                if (b.innerText === ans && !isCorrect) b.classList.add('bg-red-200', 'border-red-500');
+                if (b.innerText === q.a) b.classList.add('bg-emerald-600', 'border-emerald-400');
+                else if (b.innerText === ans && !isCorrect) {
+                    b.classList.add('bg-red-600', 'wrong-shake');
+                    document.getElementById('question').innerHTML = `<span class="text-red-400 block mb-2 font-black">عيب هذي الاجابه تطلع منك وانت مذاكر للماجستير</span>` + q.q;
+                }
             });
-            setTimeout(() => { currentIdx++; render(); }, 1500);
+            setTimeout(() => { currentIdx++; render(); }, isCorrect ? 3000 : 4000);
         }
 
         function showResults() {
             document.getElementById('quiz-ui').classList.add('hidden');
             document.getElementById('results-ui').classList.remove('hidden');
-            document.getElementById('final-score').innerText = `النتيجة النهائية: ${score} من 60`;
-            let table = `<table class="w-full text-sm"><thead><tr><th>السؤال</th><th>إجابتك</th><th>الصحيحة</th></tr></thead><tbody>`;
+            document.getElementById('final-score').innerText = `النتيجة النهائية: ${score} / ${quiz.length}`;
+            let table = `<table class="w-full text-right"><thead><tr class="text-cyan-400"><th>السؤال</th><th>إجابتك</th><th>الصحيحة</th></tr></thead><tbody>`;
             history.forEach(h => {
-                table += `<tr class="${h.selected === h.correct ? 'bg-green-50' : 'bg-red-50'} border-b">
+                table += `<tr class="${h.selected === h.correct ? 'text-emerald-400' : 'text-red-400'} border-b border-white/10">
                     <td class="p-2">${h.q}</td><td class="p-2">${h.selected}</td><td class="p-2">${h.correct}</td>
                 </tr>`;
             });
